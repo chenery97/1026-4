@@ -35,15 +35,85 @@
 2. 模板
 
    - 模板页面：HTML+CSS+JS
+
    - 模板语法
+
      - 插值语法（双大括号表达式）：{{JS表达式}}
+
        - 作用：动态渲染（显示）JS数据，当HTML需要显示js中的数据时就用插值语法
        - 注意：不能用于标签属性，只能用于标签的子节点中
-     - 指令语法：v-xxx="JS表达式"
+
+     - 指令语法：v-xxx="JS表达式"，（以v-开头的自定义标签属性）
+
        - v-model：双向数据绑定
+
          - 绑定input标签的value值（所以一上来input就有内容显示）
          - 绑定input标签的input事件（当input输入的值发生变化，会自动修改绑定的data数据）
          - 只能用于表单项：input、select、textarea
+
+         ```html
+         <!-- 双向数据绑定 -->
+         <input type='text' v-model='msg' />
+         <p>{{msg}}</p>
+         <script>
+             new Vue({
+                 el: '#app',
+                 data: {
+                     msg: 'hello vue'
+                 }
+             })
+         </script>
+         ```
+
+         
+
+       - v-bind：强制数据绑定（单向数据绑定，Model的数据流向View）
+
+         - 功能：给标签属性绑定某个动态数据
+
+         ```html
+         <!-- 单向数据绑定 -->
+         <input type='text' v-bind:value='msg' />
+         <!-- 简写模式 -->
+         <input type='text' :value='msg' />
+         <p>{{msg}}</p>
+         <script>
+             new Vue({
+                 el: '#app',
+                 data: {
+                     msg: 'hello vue'
+                 }
+             })
+         </script>
+         ```
+
+       - v-on：绑定事件监听
+
+         - 功能：用于绑定DOM事件
+         - 事件回调函数定义在配置对象中的methods中
+
+         ```html
+         <button v-on:click='clickHandle'><button/>
+         <!-- 简写模式 -->
+         <button @click='clickHandle'><button/>
+         <p>{{msg}}</p>
+         <script>
+             new Vue({
+                 el: '#app',
+                 data: {
+                     msg: 'hello vue'
+                 },
+                 methods: {
+                     clickHandle(e) {
+                         console.log(e) // 事件对象
+                         console.log(this) // this指向Vue的实例对象vm
+                     }
+                 }
+             })
+         </script>
+         ```
+
+         
 
 3. 表达式和语句的区别
 

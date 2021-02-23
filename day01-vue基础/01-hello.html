@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="root">
+    <p>{{msg}}</p>
+  </div>
+
+  <script src="../js/vue.js"></script>
+
+  <script>
+    const msg = 'hello Vue'
+    new Vue({
+      // 配置对象：属性名固定的对象
+      // el:内部通过querySelector获取dom元素
+      el: '#root',
+      // data:Vue控制的数据
+      data: {
+        msg
+      }
+    })
+  </script>
+  
+</body>
+
+</html>

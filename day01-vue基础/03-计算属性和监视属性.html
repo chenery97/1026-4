@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    姓：<input type="text" v-model="firstName"><br>
+    名：<input type="text" v-model="lastName"><br>
+    姓名0：<input type="text" v-model="fullName"><br>
+    姓名1：<input type="text" v-model="fullName1"><br>
+    姓名2：<input type="text" v-model="fullName2"><br>
+    <span>{{count}}</span>
+    <button @click="clickHandle">按钮</button>
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        firstName: 'li',
+        lastName: 'si',
+        fullName2: 'li si',
+        count: 0
+      },
+      methods: {
+        clickHandle() {
+          this.count++
+        }
+      }, 
+      // 计算属性，有缓存，当所依赖的数据没有发生变化时，不会调用对应的方法
+      computed: {
+        // 只读，当修改该计算属性时会报错
+        // Computed property "fullName" was assigned to but it has no setter.
+        fullName() {
+          return this.firstName + ' ' + this.lastName
+        },
+        // 可读可写
+        fullName1: {
+          get() {
+            console.log('run get()')
+            return this.firstName + ' ' + this.lastName
+          },
+          // set方法中接收最新的数据，当调用了set方法后由于View层绑定了对应的数据所以会调用get方法重新获取数据进行渲染
+          set(newValue) {
+            console.log('run set()')
+            const [firstName, lastName] = newValue.split(' ')
+            this.firstName = firstName
+            this.lastName = lastName
+          }
+        }
+      },
+      // 监视属性，有缓存，当所依赖的数据没有发生变化时，不会调用对应的方法
+      watch: {
+        firstName (newValue, oldValue) {
+          console.log('run firstName()')
+          this.fullName2 = newValue + ' ' + this.lastName
+        },
+        lastName (newValue, oldValue) {
+          console.log('run lastName()')
+          this.fullName2 = this.firstName + ' ' + newValue
+        },
+        fullName2 (newValue) {
+          console.log('run fullName2()')
+          const [firstName, lastName] = newValue.split(' ')
+          this.firstName = firstName
+          this.lastName = lastName
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

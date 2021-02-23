@@ -167,4 +167,68 @@
    </html>
    ```
 
-   
+5. 计算属性
+
+   当需要通过原属性计算得到一个新数据，那么使用计算属性，计算属性里面不能做异步操作
+
+   使用场景：计算总价、总数等
+
+   特点：
+
+   1. 只读的计算属性和可读可写的计算属性
+   2. 计算属性有缓存，如果依赖的数据没有发生变化，是不会重新计算的，只有依赖的数据发生了变化，才会重新计算（依赖的数据指的是读取方法中使用的this上的数据）
+
+   ```js
+   computed: {
+       // 只读，当修改该计算属性时会报错
+       // Computed property "fullName" was assigned to but it has no setter.
+       fullName() {
+           return this.firstName + ' ' + this.lastName
+       },
+       // 可读可写
+       fullName1: {
+           get() {
+               console.log('run get()')
+               return this.firstName + ' ' + this.lastName
+           },
+       // set方法中接收最新的数据，当调用了set方法后由于View层绑定了对应的数据所以会调用get方法重新获取数据进行渲染
+           set(newValue) {
+               console.log('run set()')
+               const [firstName, lastName] = newValue.split(' ')
+               this.firstName = firstName
+               this.lastName = lastName
+           }
+       }
+   }
+   ```
+
+6. 监视属性
+
+   当需要通过原属性的变化来干一些事，就用监视属性
+
+   使用场景：涉及到发送请求等
+
+   ```js
+   watch: {
+       firstName (newValue, oldValue) {
+           console.log('run firstName()')
+           this.fullName2 = newValue + ' ' + this.lastName
+       },
+       lastName (newValue, oldValue) {
+           console.log('run lastName()')
+           this.fullName2 = this.firstName + ' ' + newValue
+       },
+       fullName2 (newValue) {
+           console.log('run fullName2()')
+           const [firstName, lastName] = newValue.split(' ')
+           this.firstName = firstName
+           this.lastName = lastName
+       }
+   }
+   ```
+
+   > 计算属性和监视属性的异同点
+   >
+   > 1. 能用计算属性做的，都可以使用监视属性，但是推荐使用计算属性
+   > 2. 涉及到异步操作只能使用监视属性
+

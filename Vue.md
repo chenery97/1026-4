@@ -70,6 +70,7 @@
        - v-bind：强制数据绑定（单向数据绑定，Model的数据流向View）
 
          - 功能：给标签属性绑定某个动态数据
+         - 简写：`:属性名`
 
          ```html
          <!-- 单向数据绑定 -->
@@ -91,6 +92,7 @@
 
          - 功能：用于绑定DOM事件
          - 事件回调函数定义在配置对象中的methods中
+         - 简写：`@事件名="事件回调函数"`，当事件回调函数中只有一条语句时，可以不在methods中定义回调函数，直接简写成`@事件名="本来在回调函数中书写的语句"`，但注意不能在语句中书写this，自己会自动去this上寻找对应使用的数据
 
          ```html
          <button v-on:click='clickHandle'><button/>
@@ -111,6 +113,65 @@
                  }
              })
          </script>
+         ```
+
+       - v-if和v-show条件渲染
+
+         - v-if
+           - v-if
+           - v-else-if
+           - v-else
+         - v-show
+
+         > v-if和v-show
+         >
+         > - 相同点：都能切换显示
+         > - 不同点：
+         >   - v-if隐藏元素时会删除对应的dom元素
+         >   - v-show隐藏元素时是通过display:none隐藏的，不会删除dom元素
+         >
+         > v-show的性能比v-if更好，当频繁切换时使用v-show较好
+
+         ```html
+         <body>
+           <div id="app">
+             <h1>今晚看那部电视剧？v-if</h1>
+             <p v-if="tvName === 'guigu'">《硅谷》</p>
+             <p v-else-if="tvName === 'pochanjiemei'">《破产姐妹》</p>
+             <p v-else>《生活大爆炸》</p>
+             <button @click="changeTV">按钮</button>
+         
+             <h1>今晚看不看电视剧？v-show</h1>
+             <p v-show="isShow">看！！！</p>
+             <button @click="isShow = !isShow">按钮</button>
+           </div>
+         
+           <script src="../js/vue.js"></script>
+           <script>
+             new Vue({
+               el: '#app',
+               data: {
+                 tvName: 'guigu',
+                 isShow: true
+               },
+               methods: {
+                 changeTV() {
+                   const num = Math.floor(Math.random() * 3 + 1)
+                   switch (num) {
+                     case 1:
+                       this.tvName = 'guigu'
+                       break
+                     case 2:
+                       this.tvName = 'pochanjiemei'
+                       break
+                     default:
+                       this.tvName = 'shenghuodabaozha'
+                   }
+                 }
+               }
+             })
+           </script>
+         </body>
          ```
 
          

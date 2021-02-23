@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>今晚看那部电视剧？v-if</h1>
+    <p v-if="tvName === 'guigu'">《硅谷》</p>
+    <p v-else-if="tvName === 'pochanjiemei'">《破产姐妹》</p>
+    <p v-else>《生活大爆炸》</p>
+    <button @click="changeTV">按钮</button>
+
+    <h1>今晚看不看电视剧？v-show</h1>
+    <p v-show="isShow">看！！！</p>
+    <button @click="isShow = !isShow">按钮</button>
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        tvName: 'guigu',
+        isShow: true
+      },
+      methods: {
+        changeTV() {
+          const num = Math.floor(Math.random() * 3 + 1)
+          switch (num) {
+            case 1:
+              this.tvName = 'guigu'
+              break
+            case 2:
+              this.tvName = 'pochanjiemei'
+              break
+            default:
+              this.tvName = 'shenghuodabaozha'
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

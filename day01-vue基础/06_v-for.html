@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>v-for列表渲染 数组</h1>
+    <ul>
+      <li v-for="person in persons" :key="person.id">
+        {{person.id}} -- {{person.name}} -- {{person.age}}
+      </li>
+    </ul>
+    <h1>v-for列表渲染 对象</h1>
+    <ul>
+      <li v-for="value, key in animal" :key="key">
+        {{key}} -- {{value}}
+      </li>
+    </ul>
+    <h1>v-for语法中可以使用of替代in</h1>
+    <ul>
+      <li v-for="value, key of animal" :key="key">
+        {{key}} -- {{value}}
+      </li>
+    </ul>
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        persons: [{
+          id: 1,
+          name: 'Jack',
+          age: 20
+        }, {
+          id: 2,
+          name: 'Rose',
+          age: 19
+        }, {
+          id: 3,
+          name: 'Tom',
+          age: 22
+        }, {
+          id: 4,
+          name: 'Jerry',
+          age: 21
+        }, {
+          id: 5,
+          name: 'James',
+          age: 30
+        }, {
+          id: 6,
+          name: 'Kevin',
+          age: 28
+        }],
+        animal: {
+          type: 'cat',
+          name: 'xiaohei',
+          age: 1
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

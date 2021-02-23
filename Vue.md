@@ -174,7 +174,35 @@
          </body>
          ```
 
-         
+       - v-for列表渲染
+
+         - 数组：`v-for="(item[,index]) in items"`必须有一个参数，即代表当前项，支持第二个可选参数，即代表当前项的索引，可以省略小括号
+         - 对象：`v-for="value[,key,index] in obj"`必须有一个测试，即代表当前项的值，支持第二个可选参数，即代表当前项的键名，支持第三个可选参数，即代表当前项的索引。在遍历对象时，会按`Object.keys()`的结果遍历，但是不能保证它的结果在不同的JavaScript引擎下都一致
+
+         __注__：v-for语法中的`in`可以使用`of`代替，因为它更接近JavaScript迭代器的语法，建议尽可能在使用`v-for`时提供`key`attribute，除非遍历输出的DOM非常简单，或者是刻意依赖默认行为获取性能上的提升。
+
+         ```html
+         <div id="app">
+             <h1>v-for列表渲染 数组</h1>
+             <ul>
+                 <li v-for="person in persons" :key="person.id">
+                     {{person.id}} -- {{person.name}} -- {{person.age}}
+                 </li>
+             </ul>
+             <h1>v-for列表渲染 对象</h1>
+             <ul>
+                 <li v-for="value, key in animal" :key="key">
+                     {{key}} -- {{value}}
+                 </li>
+             </ul>
+             <h1>v-for语法中可以使用of替代in</h1>
+             <ul>
+                 <li v-for="value, key of animal" :key="key">
+                     {{key}} -- {{value}}
+                 </li>
+             </ul>
+         </div>
+         ```
 
 3. 表达式和语句的区别
 

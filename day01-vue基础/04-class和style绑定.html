@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .red{
+      color: red;
+    }
+    .skyblue{
+      color: skyblue;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 元素class写法 -->
+    <!-- <p class="red">我是一段会变化样式的文字 class绑定</p> -->
+    <!-- Vue中的写法 -->
+    <!-- 变量写法 -->
+    <p :class="color">我是一段会变化样式的文字 class绑定 变量写法</p>
+    <!-- 对象写法用于两个固定类名进行切换的时候 -->
+    <p :class="{red: isRed, skyblue: !isRed}">我是一段会变化样式的文字 class绑定 对象写法</p>
+    <!-- 数组写法用于多个类名的时候 -->
+    <p :class="['red', 'xxx']">我是一段会变化样式的文字 class绑定 数组写法</p>
+    
+    <button @click="changeColor1">改变样式1</button>
+    <button @click="changeColor2">改变样式2</button>
+
+    <!-- 元素写法 -->
+    <!-- <p style="color:pink; font-size: 18px;">我是一段会变化样式的文字 style绑定</p> -->
+    <!-- Vue中的写法 -->
+    <p :style="{color:'pink', fontSize: fontSize + 'px'}">我是一段会变化样式的文字 style绑定</p>
+    <input type="text" v-model="fontSize"></input>
+  </div>
+  
+
+  <script src="../js/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        color: 'red',
+        isRed: true,
+        fontSize: 18
+      },
+      methods:{
+        changeColor1() {
+          this.color = this.color === 'red' ? 'skyblue' : 'red'
+        },
+        changeColor2() {
+          this.isRed = !this.isRed
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

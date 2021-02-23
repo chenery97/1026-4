@@ -232,3 +232,18 @@
    > 1. 能用计算属性做的，都可以使用监视属性，但是推荐使用计算属性
    > 2. 涉及到异步操作只能使用监视属性
 
+7. class和style绑定
+
+   静态样式：用class
+
+   动态样式（样式会发生变化）：
+
+   - 样式如果是有限几种变化则使用class
+   - 样式如果是无穷中变化则使用style
+
+   - class
+     - 字符串形式：`<p :class="color">我是一段会变化样式的文字 class绑定 字符串形式</p>`
+     - 对象形式：`<p :class="{red: isRed, skyblue: !isRed}">我是一段会变化样式的文字 class绑定 对象形式</p>`
+     - 数组形式：`<p :class="['red', 'xxx']">我是一段会变化样式的文字 class绑定 数组形式</p>`
+   - style
+     - `<p :style="{color:'pink', fontSize: fontSize + 'px'}">我是一段会变化样式的文字 style绑定</p>`

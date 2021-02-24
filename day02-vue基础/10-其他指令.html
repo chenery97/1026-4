@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    [v-cloak]{
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- v-cloak 和 display:none  不会出现闪现的效果 一起使用，在编译模板语法结束前不展示 -->
+    <p v-cloak>{{msg}}</p>
+    <!-- v-pre  不会编译模板语法，跳过大量没有指令的节点会加快编译速度 -->
+    <p v-pre>{{msg}}</p>
+    <!-- v-once  只会渲染一次，后续数据更新也不会重新渲染 -->
+    <p v-once>{{num}}</p>
+    <button @click="num++">按钮</button>
+
+    <p v-text="htmlStr"></p>
+    <p v-html="htmlStr"></p>
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        msg: 'hello vue',
+        num: 0,
+        htmlStr: '<!-- 我是注释 -->'
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <p v-inner-text="msg"></p>
+    <div v-inner-html="htmlStr"></div>
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    // 全局自定义指令
+    Vue.directive('inner-html', function (el, binding) {
+      el.innerHTML = binding.value
+    })
+    new Vue({
+      el: '#app',
+      data: {
+        msg: '感觉Vue比React难，语法太多，要注重原生语法！！！',
+        htmlStr: '<h2>感觉Vue比React难，语法太多，要注重原生语法！！！</h2>'
+      },
+      directives: {
+        /* 
+          局部自定义指令
+          函数名就是定义的指令名，最终会自动在指令名前面加v-
+          函数名不能大写，因为浏览器会将大写的属性名都转成小写进行解析，写成大写指令就匹配不上了
+          el：绑定指令的那个dom元素
+          binding：包含绑定的表达式、指令名、数据等属性的对象
+        */
+        ['inner-text'](el, binding) {
+          console.log(el, binding)
+          el.innerText = binding.value
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

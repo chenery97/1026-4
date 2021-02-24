@@ -26,19 +26,26 @@
   <script src="../js/vue.js"></script>
   <script>
     new Vue({
-      el:'#app',
+      el: '#app',
       data: {
         num: 0,
         person: {
           name: 'jack',
           age: 18
         },
-        persons: [
-          {id: 1, name: 'jack', age: 18},
-          {id: 2, name: 'rose', age: 17}
+        persons: [{
+            id: 1,
+            name: 'jack',
+            age: 18
+          },
+          {
+            id: 2,
+            name: 'rose',
+            age: 17
+          }
         ]
       },
-      methods:{
+      methods: {
         updatePerson() {
           // 不是响应式数据
           // this.person.gender = 'male'
@@ -51,10 +58,24 @@
           // this.persons[0].gender = 'male'
           // 是响应式数据
           // 修改的是原数据
-          this.persons[0].age = 22
+          // this.persons[0].age = 22
           // 会修改原数组的数组方法都会触发响应式，Vue重写了这些方法
-          this.persons.push({id: 2, name: 'jerry', age: 20})
-        }
+          this.persons.push({
+            id: 3,
+            name: 'jerry',
+            age: 20
+          })
+        },
+      },
+      mounted() {
+        console.log('mounted()')
+      },
+
+      beforeUpdate() {
+        console.log('beforeUpdate()')
+      },
+      updated() {
+        console.log('updated()')
       }
     })
   </script>

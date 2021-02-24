@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <h2>实例上的过滤器，当前时间</h2>
+    <p>{{date | formatDate('YYYY-MM-DD HH:mm:ss')}}</p>
+    <p>{{date | formatDate('HH:mm:ss')}}</p>
+    <h2>Vue对象上的过滤器，当前时间</h2>
+    <p>{{date | formatDate1('YYYY-MM-DD HH:mm:ss')}}</p>
+    <p>{{date | formatDate1('HH:mm:ss')}}</p>
+  </div>
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.10.3/dayjs.min.js"></script>
+  <script src="../js/vue.js"></script>
+  <script>
+    Vue.filter('formatDate1', function (value, formatDate) {
+      return dayjs(value).format(formatDate)
+    })
+    new Vue({
+      el: '#app',
+      data: {
+        date: Date.now()
+      },
+      filters: {
+        formatDate(value, formatStr) {
+          return dayjs(value).format(formatStr)
+        }
+      },
+      mounted () {
+        this.timer = setInterval(() => {
+          console.log(111)
+          this.date = Date.now()
+        }, 1000)
+      },
+      beforeDestroy() {
+        clearInterval(this.timer)
+      }
+    })
+  </script>
+</body>
+
+</html>

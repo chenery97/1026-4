@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <span id="0"></span><br>
+    <span>{{num}}</span>
+    <button @click="num++">按钮</button>
+    <button @click="clickHandle">卸载</button>
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        num: 0
+      },
+      methods: {
+        clickHandle() {
+          this.$destroy() // 销毁Vue实例（卸载）
+        }
+      },
+      beforeCreate() {
+        console.log('beforeCreate()', this.num)
+      },
+      created() {
+        console.log('created()', this.num)
+      },
+      beforeMount() {
+        /* 
+          在beforeMount中虽然可以获取dom元素，并修改dom元素的内容，但最终渲染到页面上的dom元素还是修改之前的，也就是说无法在这个生命周期钩子函数中操作dom
+        */
+        const ele = document.getElementById('0')
+        // 修改看上去生效了，但最终渲染时不生效
+        ele.innerHTML = '修改了span的内容1'
+        ele.id = '1'
+        console.log('在beforeMount中获取dom>>>', ele)
+        console.log('beforeMount()', this.num)
+      },
+      mounted() {
+        /* 
+          要操作dom要在mounted生命周期钩子函数之后才可以
+        */
+        const ele = document.getElementById('0')
+        console.log('在mounted中获取dom>>>', ele)
+        // 修改生效，渲染也生效
+        ele.id = '2'
+        ele.innerHTML = '修改了span的内容2' 
+        console.log('mounted()', this.num)
+      },
+      beforeUpdate() {
+        console.log('beforeUpdate()', this.num)
+      },
+      updated() {
+        console.log('updated()', this.num)
+      },
+      beforeDestroy() {
+        console.log('beforeDestroy()', this.num)
+      },
+      destroyed() {
+        const ele = document.getElementById('2')
+        console.log('在mounted中获取dom>>>', ele)
+        // 修改生效，渲染也生效
+        ele.innerHTML = '修改了span的内容3'
+        ele.id = '3'
+        console.log('destroyed()', this.num)
+      },
+    })
+    console.log(vm)
+  </script>
+</body>
+
+</html>

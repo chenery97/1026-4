@@ -113,16 +113,28 @@
                  }
              })
          </script>
+         
+     <!-- 其他绑定事件方式 -->    
+         <h2>1. 绑定监听</h2>
+     <!-- 如果不需要传参时，会自动传递event事件对象 -->
+         <button v-on:click="clickHandle">按钮</button>
+         <button @click="clickHandle1">按钮1</button>
+         <!-- 如果需要传参时，可以直接传参，并不会直接调用函数，但event事件对象则不存在了 -->
+         <button @click="clickHandle2('xxx')">按钮2</button>
+         <!-- 当需要传参并且需要event对象时，在参数中传递$event，事件回调函数中就可以接收到这个事件对象了 -->
+     <button @click="clickHandle3('xxx', $event, 'yyy')">按钮3</button>
+         <!-- 但事件回调函数中只有一条语句时，可以直接简写成以下形式 -->
+         <button @click="msg = '按钮4'">按钮4</button>
          ```
-
-       - v-if和v-show条件渲染
-
+       
+       - v-if和v-show：条件渲染
+       
          - v-if
            - v-if
-           - v-else-if
+       - v-else-if
            - v-else
          - v-show
-
+       
          > v-if和v-show
          >
          > - 相同点：都能切换显示
@@ -131,7 +143,7 @@
          >   - v-show隐藏元素时是通过display:none隐藏的，不会删除dom元素
          >
          > v-show的性能比v-if更好，当频繁切换时使用v-show较好
-
+       
          ```html
          <body>
            <div id="app">
@@ -161,26 +173,26 @@
                      case 1:
                        this.tvName = 'guigu'
                        break
-                     case 2:
+                 case 2:
                        this.tvName = 'pochanjiemei'
-                       break
+                   break
                      default:
                        this.tvName = 'shenghuodabaozha'
-                   }
-                 }
                }
+                 }
+           }
              })
            </script>
          </body>
          ```
-
-       - v-for列表渲染
-
+       
+       - v-for：列表渲染
+       
          - 数组：`v-for="(item[,index]) in items"`必须有一个参数，即代表当前项，支持第二个可选参数，即代表当前项的索引，可以省略小括号
          - 对象：`v-for="value[,key,index] in obj"`必须有一个测试，即代表当前项的值，支持第二个可选参数，即代表当前项的键名，支持第三个可选参数，即代表当前项的索引。在遍历对象时，会按`Object.keys()`的结果遍历，但是不能保证它的结果在不同的JavaScript引擎下都一致
-
+       
          __注__：v-for语法中的`in`可以使用`of`代替，因为它更接近JavaScript迭代器的语法，建议尽可能在使用`v-for`时提供`key`attribute，除非遍历输出的DOM非常简单，或者是刻意依赖默认行为获取性能上的提升。
-
+       
          ```html
          <div id="app">
              <h1>v-for列表渲染 数组</h1>
@@ -203,6 +215,16 @@
              </ul>
          </div>
          ```
+         
+       - v-text：将数据渲染到绑定该指令的子节点上，与innerText、textContent功能相同
+       
+       - v-html：将数据渲染到绑定该指令的子节点上，如果数据是html标签字符串，会解析成html标签，与innerHTML功能相同
+       
+       - v-pre：跳过编译
+       
+       - v-cloak：避免闪现的效果，配合display:none使用，编译完成前不渲染
+       
+       - v-once：只编译渲染一次，后续数据发生变化都不会重新渲染
 
 3. 表达式和语句的区别
 
@@ -337,29 +359,220 @@
    - style
      - `<p :style="{color:'pink', fontSize: fontSize + 'px'}">我是一段会变化样式的文字 style绑定</p>`
 
+8. 修饰符
+
+   - 事件修饰符
+
+     ```html
+     <h2>2. 事件修饰符</h2>
+     <!-- .prevent：阻止默认行为 -->
+     <a href="http://www.baidu.com" @click.prevent="clickHandle">go to www.baidu.com</a>
+     <div @click="clickHandle4('外层div')">
+         外层div
+         <!-- .stop：阻止冒泡 -->
+         <div @click.stop="clickHandle4('内层div')">
+             内层div
+             <!-- 支持串联使用 -->
+             <a href="http://www.baidu.com" @click.prevent.stop="clickHandle">go to www.baidu.com</a>
+         </div>
+     </div>
+     ```
+
+   - 按键修饰符
+
+     ```js
+     <h2>3. 按键修饰符</h2>
+     <!-- 支持串联使用 -->
+     <!-- 支持所有按键 -->
+     <input type="text" @keyup.13.delete="keyupHandle">
+     <!-- 只支持部分按键 -->
+     <input type="text" @keyup.enter.space.z="keyupHandle">
+     ```
+
+9. 过渡&动画
+
+   - 过渡
+
+     ```html
+     <style>
+         .v-leave{
+             transform: translateX(0) scale(1);
+         }
+         .v-leave-active{
+             transition: all 2s;
+         }
+         .v-leave-to{
+             transform: translateX(100px) scale(0.8);
+         }
+         .v-enter{
+             transform: translateX(100px) scale(0.8);
+         }
+         .v-enter-active{
+             transition: all 2s;
+         }
+         .v-enter-to{
+             transform: translateX(0) scale(1);
+         }
+     </style>
+     
+     <div id="app">
+         <button @click="isShow = !isShow">按钮</button>
+         <!-- 需要过渡效果的dom元素，使用内置transition组件包裹 -->
+         <!-- 
+             当插入或删除包含在 transition 组件中的元素时，Vue 将会做以下处理：
+             自动嗅探目标元素是否应用了 CSS 过渡或动画，如果是，在恰当的时机添加/删除 CSS 类名。
+             如果过渡组件提供了 JavaScript 钩子函数，这些钩子函数将在恰当的时机被调用。
+             如果没有找到 JavaScript 钩子并且也没有检测到 CSS 过渡/动画，DOM 操作 (插入/删除) 在下一帧中立即执行。
+             (注意：此指浏览器逐帧动画机制，和 Vue 的 nextTick 概念不同)
+     	-->
+         <transition>
+             <p v-show="isShow">Let's me see!!!</p>
+         </transition>
+     </div>
+     ```
+
+   - 动画
+
+     ```html
+     <style>
+         .v-leave-active{
+             animation: move 5s linear 1s;
+         }
+         .v-enter-active{
+             animation: move 5s linear 1s reverse;
+         }
+         @keyframes move {
+             from{
+                 opacity: 1;
+                 transform: translateX(0);
+             }
+             50%{
+                 opacity: 0.5;
+                 transform: translateX(200px);
+             }
+             to{
+                 opacity: 0;
+                 transform: translateX(100px);
+             }
+         }
+     </style>
+     
+     <div id="app">
+         <button @click="isShow = !isShow">按钮</button>
+         <transition>
+             <p v-show="isShow">Let's me see!!!</p>
+         </transition>
+     </div>
+     ```
+
+10. 过滤器：用于常见的文本格式化，过滤器可以用在两个地方：双大括号插值和v-bind表达式
+
+    ```html
+    <div id="app">
+        <h2>实例上的过滤器，当前时间</h2>
+        <!-- 语法，第一个参数是管道符前面的数据，可以额外传参 -->
+        <p>{{date | formatDate('YYYY-MM-DD HH:mm:ss')}}</p>
+        <p>{{date | formatDate('HH:mm:ss')}}</p>
+        <h2>Vue对象上的过滤器，当前时间</h2>
+        <p>{{date | formatDate1('YYYY-MM-DD HH:mm:ss')}}</p>
+        <p>{{date | formatDate1('HH:mm:ss')}}</p>
+    </div>
+    
+    <script src="https://cdn.bootcdn.net/ajax/libs/dayjs/1.10.3/dayjs.min.js"></script>
+    <script src="../js/vue.js"></script>
+    <script>
+        // 全局过滤器，所有组件都可以使用
+        Vue.filter('formatDate1', function (value, formatDate) {
+            return dayjs(value).format(formatDate)
+        })
+        new Vue({
+            el: '#app',
+            data: {
+                date: Date.now()
+            },
+        	// 实例上的过滤器，只能作用于当前实例   
+            filters: {
+                formatDate(value, formatStr) {
+                    return dayjs(value).format(formatStr)
+                }
+            },
+            mounted () {
+                this.timer = setInterval(() => {
+                    console.log(111)
+                    this.date = Date.now()
+                }, 1000)
+            },
+            beforeDestroy() {
+                clearInterval(this.timer)
+            }
+        })
+    </script>
+    ```
+
+11. 自定义指令：需要对普通 DOM 元素进行底层操作，这时候就会用到自定义指令
+
+    ```html
+    <div id="app">
+        <p v-inner-text="msg"></p>
+        <div v-inner-html="htmlStr"></div>
+    </div>
+    
+    <script src="../js/vue.js"></script>
+    <script>
+        // 全局自定义指令
+        Vue.directive('inner-html', function (el, binding) {
+            el.innerHTML = binding.value
+        })
+        new Vue({
+            el: '#app',
+            data: {
+                msg: '感觉Vue比React难，语法太多，要注重原生语法！！！',
+                htmlStr: '<h2>感觉Vue比React难，语法太多，要注重原生语法！！！</h2>'
+            },
+            directives: {
+                /* 
+              局部自定义指令
+              函数名就是定义的指令名，最终会自动在指令名前面加v-
+              函数名不能大写，因为浏览器会将大写的属性名都转成小写进行解析，写成大写指令就匹配不上了
+              el：绑定指令的那个dom元素
+              binding：包含绑定的表达式、指令名、数据等属性的对象
+            */
+                ['inner-text'](el, binding) {
+                    console.log(el, binding)
+                    el.innerText = binding.value
+                }
+            }
+        })
+    </script>
+    ```
+
+    
+
 ### Vue生命周期
 
-#### 挂载阶段（初始化阶段）：一上来自动触发
+#### 挂载阶段（初始化阶段）：一上来自动触发，只会触发一次
 
 - beforeCreate
-  - 在数据代理之前触发的
+  - 在数据代理之前触发的，数据代理：把data、methods、computed、watch等数据代理在this身上
   - 此时还不能通过this访问数据（data）
 - created
+  - 数据代理之后触发，在此及之后都可以正常使用数据
 - beforeMount
+  - 此阶段不能操作DOM，在此及之后都可以正常操作DOM
 - mounted
   - 页面渲染完毕，此时才能操作DOM
   - 发送请求、设置定时器、绑定事件等一次性任务
 
-#### 更新阶段：更新data数据才会触发
+#### 更新阶段：每次更新响应式数据都会触发
 
 - beforeUpdate
 
 - updated
 
-  __注__：updated是数据更新后的页面，beforeUpdate是数据更新前的页面
+  __注__：数据更新后才会执行这两个钩子函数，updated是数据更新后的视图，beforeUpdate是数据更新前的视图
 
-#### 卸载阶段：this.$destroy()才会触发
+#### 卸载阶段：调用Vue实例的$destroy()才会触发，只会触发一次
 
 - beforeDestroy
-  - 做一些首尾工作：清除定时器、解绑事件
+  - 做一些收尾工作：清除定时器、解绑事件
 - destroyed

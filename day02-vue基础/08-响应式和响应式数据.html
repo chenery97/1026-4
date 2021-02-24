@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <span>{{num}}</span>
+    <button @click="num++">add</button>
+
+    <ul>
+      <li v-for="value, key in person" :key="key">{{key}} -- {{value}}</li>
+    </ul>
+    <button @click="updatePerson">add</button>
+    <ul>
+      <li v-for="person in persons" :key="person.id">{{person.name}} -- {{person.age}} -- {{person.gender}}</li>
+    </ul>
+    <button @click="updatePersons">add</button>
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    new Vue({
+      el:'#app',
+      data: {
+        num: 0,
+        person: {
+          name: 'jack',
+          age: 18
+        },
+        persons: [
+          {id: 1, name: 'jack', age: 18},
+          {id: 2, name: 'rose', age: 17}
+        ]
+      },
+      methods:{
+        updatePerson() {
+          // 不是响应式数据
+          // this.person.gender = 'male'
+          // 是响应式数据，对象要添加属性，要通过this.$set()的方法添加
+          this.$set(this.person, 'gender', 'male')
+        },
+        updatePersons() {
+          // 不是响应式数据
+          // this.persons[2] = {name: 'tom', age: 20}
+          // this.persons[0].gender = 'male'
+          // 是响应式数据
+          // 修改的是原数据
+          this.persons[0].age = 22
+          // 会修改原数组的数组方法都会触发响应式，Vue重写了这些方法
+          this.persons.push({id: 2, name: 'jerry', age: 20})
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

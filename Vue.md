@@ -220,7 +220,7 @@
      - V：View，视图层（HTML）
      - VM：ViewModel，视图模型层。
        - Model的数据可以流向View视图（ViewModel负责从Model读取数据渲染到View层）
-       - View视图的数据发生修改可以流向Model层（ViewModel负责绑定事件，从事件从读取View层修改的数据，再去修改Model的数据）
+       - View视图的数据发生修改可以流向Model层（ViewModel负责绑定事件，从事件中读取View层修改的数据，再去修改Model的数据）
 
    ```html
    <!DOCTYPE html>

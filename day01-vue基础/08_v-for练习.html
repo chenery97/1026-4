@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" placeholder="请输入用户名查询" v-model="searchName">
+    <ul>
+      <!-- 最终列表渲染的是计算属性中过滤后的数据 -->
+      <li v-for="person in filterPersons" :key="person.id">
+        {{person.id}} -- {{person.name}} -- {{person.age}}
+      </li>
+    </ul>
+    <button @click="orderType = 'asc'">按年龄升序排序</button>
+    <button @click="orderType = 'desc'">按年龄降序排序</button>
+    <button @click="orderType = 'origin'">按原来顺序排序</button>
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        searchName: '',
+        persons: [{
+          id: 1,
+          name: 'Jack',
+          age: 20
+        }, {
+          id: 2,
+          name: 'Rose',
+          age: 19
+        }, {
+          id: 3,
+          name: 'Tom',
+          age: 22
+        }, {
+          id: 4,
+          name: 'Jerry',
+          age: 21
+        }, {
+          id: 5,
+          name: 'James',
+          age: 30
+        }, {
+          id: 6,
+          name: 'Kevin',
+          age: 28
+        }],
+        
+        orderType: 'origin'
+      },
+      methods: {
+      },
+      computed: {
+        filterPersons() {
+          // console.log(this.orderType)
+          // 根据用户输入的查询字符串，过滤数据
+          // const filterPersons = this.persons.filter(person => person.name.indexOf(this.searchName) !== -1)
+          const filterPersons = this.persons.filter(person => person.name.includes(this.searchName))
+          // 判断排序类型
+          if (this.orderType === 'origin') return filterPersons
+          const orderPersons = filterPersons.sort((a, b) => {
+            return this.orderType === 'asc' ? a.age - b.age : b.age - a.age
+          })
+          return orderPersons
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

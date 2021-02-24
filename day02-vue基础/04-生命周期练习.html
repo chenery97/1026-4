@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="$destroy()">卸载</button>
+    <p v-show="fade">Let's me see!!!</p>
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        fade: true
+      },
+      mounted () {
+        // 挂载设置定时器
+        this.timer = setInterval(() => {
+          console.log(111)
+          this.fade = !this.fade
+        }, 200)
+      },
+      beforeDestroy() {
+        // 即将卸载时要清除定时器
+        clearInterval(this.timer)
+      }
+    })
+  </script>
+</body>
+
+</html>

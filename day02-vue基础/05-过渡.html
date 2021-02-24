@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .v-leave{
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+    .v-leave-active{
+      transition: all 2s;
+    }
+    .v-leave-to{
+      opacity: 0;
+      transform: translateX(100px) scale(0.8);
+    }
+    .v-enter{
+      opacity: 0;
+      transform: translateX(100px) scale(0.8);
+    }
+    .v-enter-active{
+      transition: all 2s;
+    }
+    .v-enter-to{
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="isShow = !isShow">按钮</button>
+    <transition>
+      <p v-show="isShow">Let's me see!!!</p>
+    </transition>
+  </div>
+
+  <script src="../js/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        isShow: true
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>07_事件处理</title>
+</head>
+
+<body>
+  <!--
+1. 绑定监听:
+  v-on:xxx="fun"
+  @xxx="fun"
+  @xxx="fun(参数)"
+  默认事件形参: event
+  隐含属性对象: $event
+2. 事件修饰符:
+  .prevent : 阻止事件的默认行为 event.preventDefault()
+  .stop : 停止事件冒泡 event.stopPropagation()
+3. 按键修饰符
+  .keycode : 操作的是某个keycode值的健
+  .enter : 操作的是enter键
+-->
+
+  <div id="example">
+
+    <h2>1. 绑定监听</h2>
+    <!-- 如果不需要传参时，会自动传递event事件对象 -->
+    <button v-on:click="clickHandle">按钮</button>
+    <button @click="clickHandle1">按钮1</button>
+    <!-- 如果需要传参时，可以直接传参，并不会直接调用函数，但event事件对象则不存在了 -->
+    <button @click="clickHandle2('xxx')">按钮2</button>
+    <!-- 当需要传参并且需要event对象时，在参数中传递$event，事件回调函数中就可以接收到这个事件对象了 -->
+    <button @click="clickHandle3('xxx', $event, 'yyy')">按钮3</button>
+    <!-- 但事件回调函数中只有一条语句时，可以直接简写成以下形式 -->
+    <button @click="msg = '按钮4'">按钮4</button>
+
+    <h2>2. 事件修饰符</h2>
+    <!-- 支持串联使用 -->
+    <!-- .prevent：阻止默认行为 -->
+    <a href="http://www.baidu.com" @click.prevent="clickHandle">go to www.baidu.com</a>
+    <div @click="clickHandle4('外层div')">
+      外层div
+      <!-- .stop：阻止冒泡 -->
+      <div @click.stop="clickHandle4('内层div')">
+        内层div
+        <a href="http://www.baidu.com" @click.prevent.stop="clickHandle">go to www.baidu.com</a>
+      </div>
+    </div>
+
+    <h2>3. 按键修饰符</h2>
+    <!-- 支持串联使用 -->
+    <!-- 支持所有按键 -->
+    <input type="text" @keyup.13.delete="keyupHandle">
+    <!-- 只支持部分按键 -->
+    <input type="text" @keyup.enter.space.z="keyupHandle">
+
+  </div>
+
+  <script type="text/javascript" src="../js/vue.js"></script>
+  <script type="text/javascript">
+    new Vue({
+      el: '#example',
+      data: {
+        msg: ''
+      },
+      methods: {
+        clickHandle(e) {
+          console.log(e.target.innerHTML)
+        },
+        clickHandle1(e) {
+          console.log(e)
+        },
+        clickHandle2() {
+          console.log(arguments)
+        },
+        clickHandle3(xxx, e, yyy) {
+          console.log(xxx, e, yyy)
+        },
+        clickHandle4(msg) {
+          console.log(msg)
+        },
+        keyupHandle(e) {
+          console.log(11111)
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

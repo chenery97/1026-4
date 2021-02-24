@@ -336,3 +336,30 @@
      - 数组形式：`<p :class="['red', 'xxx']">我是一段会变化样式的文字 class绑定 数组形式</p>`
    - style
      - `<p :style="{color:'pink', fontSize: fontSize + 'px'}">我是一段会变化样式的文字 style绑定</p>`
+
+### Vue生命周期
+
+#### 挂载阶段（初始化阶段）：一上来自动触发
+
+- beforeCreate
+  - 在数据代理之前触发的
+  - 此时还不能通过this访问数据（data）
+- created
+- beforeMount
+- mounted
+  - 页面渲染完毕，此时才能操作DOM
+  - 发送请求、设置定时器、绑定事件等一次性任务
+
+#### 更新阶段：更新data数据才会触发
+
+- beforeUpdate
+
+- updated
+
+  __注__：updated是数据更新后的页面，beforeUpdate是数据更新前的页面
+
+#### 卸载阶段：this.$destroy()才会触发
+
+- beforeDestroy
+  - 做一些首尾工作：清除定时器、解绑事件
+- destroyed

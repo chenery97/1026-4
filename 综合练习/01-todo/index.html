@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>React App</title>
+
+  <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+  <div id="root">
+    <div class="todo-container">
+      <div class="todo-wrap">
+        <div class="todo-header">
+          <input type="text" placeholder="请输入你的任务名称，按回车键确认" v-model.trim="todoName" @keyup.enter="addTodo" />
+        </div>
+        <ul class="todo-main">
+          <li v-for="todo in todos" :key="todo.id">
+            <label @click="todo.isDone = !todo.isDone">
+              <input type="checkbox" :checked="todo.isDone" />
+              <span>{{todo.todoName}}</span>
+            </label>
+            <button :data-id="todo.id" class="btn btn-danger" @click="delTodo">删除</button>
+          </li>
+        </ul>
+        <div class="todo-footer" v-if="allCount !== 0">
+          <label>
+            <input type="checkbox" :checked="completeCount === allCount" @click="changeTodosDone" />
+          </label>
+          <span>
+            <span>已完成{{completeCount}}</span> / 全部{{allCount}}
+          </span>
+          <button class="btn btn-danger" @click="delCompleteTodos">清除已完成任务</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../../js/vue.js"></script>
+  <script>
+    new Vue({
+      el: '#root',
+      data: {
+        todos: [{
+            id: 1,
+            todoName: '睡觉',
+            isDone: true
+          },
+          {
+            id: 2,
+            todoName: '吃饭',
+            isDone: false
+          },
+          {
+            id: 3,
+            todoName: '敲代码',
+            isDone: false
+          },
+        ],
+        todoName: '',
+      },
+      methods: {
+        // 添加新的todo
+        addTodo() {
+          const {
+            todos
+          } = this
+          // 计算得到id
+          const id = todos.length ? todos.reduce((prev, item) => prev > item.id ? prev : item.id, 0) + 1 : 1
+          // 定义一个obj保存新todo的信息
+          const obj = {
+            id,
+            todoName: this.todoName,
+            isDone: false
+          }
+          // 添加到data中
+          todos.unshift(obj)
+          // 重置输入框
+          this.todoName = ''
+        },
+        // 删除todo
+        delTodo(e) {
+          // 获取被删除的id
+          const id = parseInt(e.target.dataset.id)
+          // 根据id删除数据
+          // this.todos.forEach((item, index) => item.id === id && this.todos.splice(index, 1))
+          this.todos = this.todos.filter(item => item.id !== id)
+        },
+        // 更改todo的isDone状态
+        changeTodosDone(e) {
+          // 获取全选按钮的状态
+          const isDone = e.target.checked
+          // 根据全选按钮状态改变todos中todo的状态
+          this.todos.forEach(item => item.isDone = isDone)
+        },
+        // 删除已完成的todo
+        delCompleteTodos() {
+          this.todos = this.todos.filter(item => !item.isDone)
+        }
+      },
+      computed: {
+        // 计算总的todo数量
+        allCount() {
+          return this.todos.length
+        },
+        // 计算已完成的todo数量
+        completeCount() {
+          return this.todos.reduce((prev, item) => item.isDone ? ++prev : prev, 0)
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

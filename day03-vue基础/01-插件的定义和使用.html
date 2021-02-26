@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <p v-lower-case="msg"></p>
+      <p v-to-string="num"></p>
+      <p>{{msg1 | upperCase}}</p>
+      <p>{{msg | reverse}}</p>
+    </div>
+
+
+    <script src="../js/vue.js"></script>
+    <script src="./myPlugin.js"></script>
+    <script>
+      // 使用插件
+      Vue.use(objPlugin)
+      Vue.use(funPlugin)
+      new Vue({
+        el: '#app',
+        data: {
+          msg: 'HELLO',
+          msg1: 'hello',
+          num: 12345890
+        },
+        mounted() {
+          Vue.objGlobalMethod()
+          this.$objLocalMethod()
+          Vue.funGlobalMethod()
+          this.$funLocalMethod()
+        }
+      })
+    </script>
+  </body>
+</html>

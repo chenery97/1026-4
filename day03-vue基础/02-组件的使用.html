@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <!-- 3. 使用组件 -->
+      <Test-Component></Test-Component>
+      <My-Component></My-Component>
+      <Vue-Component>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+      // 1. 定义组件 方式一
+      const TestComponent = Vue.extend({
+        // name: '',
+        data () {
+          return {
+            msg: 'Vue.extend的方式定义的组件'
+          }
+        },
+        template: '<h1>{{msg}}</h1>'
+      })
+      // 定义组件 方式二
+      const MyComponent = Vue.component('MyComponent', {
+        data () {
+          return {
+            data: 'Vue.component的方式定义的组件'
+          }
+        },
+        template: '<h1>{{data}}</h1>'
+      })
+      // 2. 注册组件
+      new Vue({
+        el: '#app',
+        components: {
+          TestComponent,
+          MyComponent,
+          // 定义组件 方式三
+          VueComponent: {
+            name: 'VueComponent',
+            data () {
+              return {
+                re: 'components的方式定义的组件'
+              }
+            },
+            template: '<h1>{{re}}</h1>'
+          }
+        }
+      })
+    </script>
+  </body>
+</html>

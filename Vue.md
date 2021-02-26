@@ -65,15 +65,13 @@
          </script>
          ```
 
-         
-
        - v-bind：强制数据绑定（单向数据绑定，Model的数据流向View）
 
          - 功能：给标签属性绑定某个动态数据
-         - 简写：`:属性名`
-
+     - 简写：`:属性名`
+       
          ```html
-         <!-- 单向数据绑定 -->
+     <!-- 单向数据绑定 -->
          <input type='text' v-bind:value='msg' />
          <!-- 简写模式 -->
          <input type='text' :value='msg' />
@@ -87,15 +85,15 @@
              })
          </script>
          ```
-
+       
        - v-on：绑定事件监听
 
          - 功能：用于绑定DOM事件
-         - 事件回调函数定义在配置对象中的methods中
+     - 事件回调函数定义在配置对象中的methods中
          - 简写：`@事件名="事件回调函数"`，当事件回调函数中只有一条语句时，可以不在methods中定义回调函数，直接简写成`@事件名="本来在回调函数中书写的语句"`，但注意不能在语句中书写this，自己会自动去this上寻找对应使用的数据
-
+         
          ```html
-         <button v-on:click='clickHandle'><button/>
+     <button v-on:click='clickHandle'><button/>
          <!-- 简写模式 -->
          <button @click='clickHandle'><button/>
          <p>{{msg}}</p>
@@ -113,86 +111,87 @@
                  }
              })
          </script>
-         
-     <!-- 其他绑定事件方式 -->    
+         <!-- 其他绑定事件方式 -->    
          <h2>1. 绑定监听</h2>
-     <!-- 如果不需要传参时，会自动传递event事件对象 -->
+         <!-- 如果不需要传参时，会自动传递event事件对象 -->
          <button v-on:click="clickHandle">按钮</button>
          <button @click="clickHandle1">按钮1</button>
          <!-- 如果需要传参时，可以直接传参，并不会直接调用函数，但event事件对象则不存在了 -->
          <button @click="clickHandle2('xxx')">按钮2</button>
          <!-- 当需要传参并且需要event对象时，在参数中传递$event，事件回调函数中就可以接收到这个事件对象了 -->
-     <button @click="clickHandle3('xxx', $event, 'yyy')">按钮3</button>
+         <button @click="clickHandle3('xxx', $event, 'yyy')">按钮3</button>
          <!-- 但事件回调函数中只有一条语句时，可以直接简写成以下形式 -->
          <button @click="msg = '按钮4'">按钮4</button>
          ```
-       
-       - v-if和v-show：条件渲染
-       
-         - v-if
+         
+         - v-if和v-show：条件渲染
+         
            - v-if
-       - v-else-if
-           - v-else
-         - v-show
-       
-         > v-if和v-show
-         >
-         > - 相同点：都能切换显示
-         > - 不同点：
-         >   - v-if隐藏元素时会删除对应的dom元素
-         >   - v-show隐藏元素时是通过display:none隐藏的，不会删除dom元素
-         >
-         > v-show的性能比v-if更好，当频繁切换时使用v-show较好
-       
-         ```html
-         <body>
-           <div id="app">
-             <h1>今晚看那部电视剧？v-if</h1>
-             <p v-if="tvName === 'guigu'">《硅谷》</p>
-             <p v-else-if="tvName === 'pochanjiemei'">《破产姐妹》</p>
-             <p v-else>《生活大爆炸》</p>
-             <button @click="changeTV">按钮</button>
+             - v-if
+             - v-else-if
+             - v-else
          
-             <h1>今晚看不看电视剧？v-show</h1>
-             <p v-show="isShow">看！！！</p>
-             <button @click="isShow = !isShow">按钮</button>
-           </div>
+           - v-show
          
-           <script src="../js/vue.js"></script>
-           <script>
-             new Vue({
-               el: '#app',
-               data: {
-                 tvName: 'guigu',
-                 isShow: true
-               },
-               methods: {
-                 changeTV() {
-                   const num = Math.floor(Math.random() * 3 + 1)
-                   switch (num) {
-                     case 1:
-                       this.tvName = 'guigu'
-                       break
-                 case 2:
-                       this.tvName = 'pochanjiemei'
-                   break
-                     default:
-                       this.tvName = 'shenghuodabaozha'
+           > v-if和v-show
+           >
+           > - 相同点：都能切换显示
+           > - 不同点：
+           >   - v-if隐藏元素时会删除对应的dom元素
+           >   - v-show隐藏元素时是通过display:none隐藏的，不会删除dom元素
+           >
+           > v-show的性能比v-if更好，当频繁切换时使用v-show较好
+         
+           ```html
+       <body>
+         <div id="app">
+           <h1>今晚看那部电视剧？v-if</h1>
+           <p v-if="tvName === 'guigu'">《硅谷》</p>
+           <p v-else-if="tvName === 'pochanjiemei'">《破产姐妹》</p>
+           <p v-else>《生活大爆炸》</p>
+           <button @click="changeTV">按钮</button>
+       
+           <h1>今晚看不看电视剧？v-show</h1>
+           <p v-show="isShow">看！！！</p>
+           <button @click="isShow = !isShow">按钮</button>
+         </div>
+       
+         <script src="../js/vue.js"></script>
+         <script>
+           new Vue({
+             el: '#app',
+             data: {
+               tvName: 'guigu',
+               isShow: true
+             },
+             methods: {
+               changeTV() {
+                 const num = Math.floor(Math.random() * 3 + 1)
+                 switch (num) {
+                   case 1:
+                     this.tvName = 'guigu'
+                     break
+               case 2:
+                     this.tvName = 'pochanjiemei'
+                 break
+                   default:
+                     this.tvName = 'shenghuodabaozha'
+             }
                }
-                 }
-           }
-             })
-           </script>
-         </body>
+         }
+           })
+         </script>
+       </body>
          ```
        
        - v-for：列表渲染
-       
+     
          - 数组：`v-for="(item[,index]) in items"`必须有一个参数，即代表当前项，支持第二个可选参数，即代表当前项的索引，可以省略小括号
          - 对象：`v-for="value[,key,index] in obj"`必须有一个测试，即代表当前项的值，支持第二个可选参数，即代表当前项的键名，支持第三个可选参数，即代表当前项的索引。在遍历对象时，会按`Object.keys()`的结果遍历，但是不能保证它的结果在不同的JavaScript引擎下都一致
-       
+           
+     
          __注__：v-for语法中的`in`可以使用`of`代替，因为它更接近JavaScript迭代器的语法，建议尽可能在使用`v-for`时提供`key`attribute，除非遍历输出的DOM非常简单，或者是刻意依赖默认行为获取性能上的提升。
-       
+     
          ```html
          <div id="app">
              <h1>v-for列表渲染 数组</h1>
@@ -215,15 +214,15 @@
              </ul>
          </div>
          ```
-         
+     
        - v-text：将数据渲染到绑定该指令的子节点上，与innerText、textContent功能相同
-       
+     
        - v-html：将数据渲染到绑定该指令的子节点上，如果数据是html标签字符串，会解析成html标签，与innerHTML功能相同
-       
+     
        - v-pre：跳过编译
-       
+     
        - v-cloak：避免闪现的效果，配合display:none使用，编译完成前不渲染
-       
+     
        - v-once：只编译渲染一次，后续数据发生变化都不会重新渲染
 
 3. 表达式和语句的区别
@@ -546,6 +545,61 @@
     </script>
     ```
 
+12. 自定义插件
+
+    ```js
+    /* 
+      定义插件
+        1. 对象形式
+        2. 函数形式
+    
+        全局扩展	Vue.xxx = function() {}
+        实例扩展	Vue.prototype.$xxx = function() {}
+        自定义过滤器 Vue.filter('xxx', function(value) {})
+        自定义指令	Vue.directive('xxx', function(el, binding) {})
+    
+      使用插件：Vue.use(插件名), 会自动执行对象形式的install方法安装插件，或直接执行函数形式定义的函数插件安装插件，注意要先使用插件再new Vue()
+    */
+    
+    const objPlugin = {};
+    objPlugin.install = function (Vue) {
+      Vue.objGlobalMethod = function () {
+        console.log("objGlobalMethod");
+      };
+      Vue.prototype.$objLocalMethod = function () {
+        console.log("objLocalMethod");
+      };
+      Vue.filter("upperCase", function (value) {
+        return value.toUpperCase();
+      });
+      Vue.directive("lower-case", function (el, binding) {
+        el.innerText = binding.value.toLowerCase();
+      });
+    };
+    
+    function funPlugin(Vue) {
+      Vue.funGlobalMethod = function () {
+        console.log("funGlobalMethod");
+      };
+      Vue.prototype.$funLocalMethod = function () {
+        console.log("funLocalMethod");
+      };
+      Vue.filter("reverse", function (value) {
+        return value.split('').reverse().join('');
+      });
+      Vue.directive("to-string", function (el, binding) {
+        el.innerText = binding.value.toString();
+      });
+    }
+    
+    // 使用插件
+    Vue.use(objPlugin)
+    Vue.use(funPlugin)
+    new Vue({
+        ...
+    })
+    ```
+
     
 
 ### Vue生命周期
@@ -576,3 +630,83 @@
 - beforeDestroy
   - 做一些收尾工作：清除定时器、解绑事件
 - destroyed
+
+
+
+### Vue组件
+
+#### 模块与组件和模块化与组件化的理解
+
+1. 模块
+   - 理解：向外提供特定功能的js程序，一般就是一个js文件
+   - 作用：复用js代码，简化js的编写，提高js运行效率
+2. 组件
+   - 理解：用来实现特定（局部）界面功能效果的代码集合（html、css、js）
+   - 作用：复用代码，简化项目编码，提高应用运行效率
+3. 模块化
+   - 当应用的js都以模块来编写的，这个应用就是一个模块化的应用
+4. 组件化
+   - 当应用是以多组件的方式实现的，这个应用就是一个组件化的应用
+
+#### 组件定义和使用
+
+1. 定义组件
+   1. 方式一：`Vue.extend({组件的配置对象})`，返回一个组件
+   2. 方式二：`Vue.component('组件名', {组件的配置对象})`，返回一个组件
+   3. 方式三：`new Vue({el:'#app', components:{myComponent:{组件的配置对象}}})`
+2. 注册组件：`new Vue({el: '#app', components: {组件名: 定义好的组件}})`
+3. 使用组件：`<组件名></组件名>`
+   - 在没有使用脚手架的情况下，方式一和方式二定义的组件不支持单标签写法
+   - 在没有使用脚手架的情况下，以上三种方式定义的组件在使用组件的时候组件名不支持大驼峰写法，必须使用连接符`-`
+
+```html
+<body>
+    <div id="app">
+        <!-- 3. 使用组件 -->
+        <Test-Component></Test-Component>
+        <My-Component></My-Component>
+        <Vue-Component>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+         // 1. 定义组件 方式一
+         const TestComponent = Vue.extend({
+             // name: '',
+             data () {
+                 return {
+                     msg: 'Vue.extend的方式定义的组件'
+                 }
+             },
+             template: '<h1>{{msg}}</h1>'
+         })
+         // 定义组件 方式二
+         const MyComponent = Vue.component('MyComponent', {
+             data () {
+                 return {
+                     data: 'Vue.component的方式定义的组件'
+                 }
+             },
+             template: '<h1>{{data}}</h1>'
+         })
+         // 2. 注册组件
+         new Vue({
+             el: '#app',
+             components: {
+                 TestComponent,
+                 MyComponent,
+                 // 定义组件 方式三
+                 VueComponent: {
+                     name: 'VueComponent',
+                     data () {
+                         return {
+                             re: 'components的方式定义的组件'
+                         }
+                  	 },
+                  	 template: '<h1>{{re}}</h1>'
+                 }
+             }
+         })
+     </script>
+</body>
+```
+

@@ -1,5 +1,5 @@
 /* 
-  vue的一些配置，会被合并到webpack的配置文件中
+  vue脚手架的一些配置，会被合并到webpack的配置文件中
 */
 module.exports = {
   devServer: {

@@ -762,4 +762,42 @@
    this.$linsteners.事件名称(参数1, 参数2, ...)
    ```
 
+### 全局事件总线
+
+适用于：任意组件间通信，通常用于兄弟组件、爷孙组件之间进行通信父子还是用props
+
+使用：
+
+1. 给Vue的原型上添加全局事件总线对象
+
+   ```js
+   // 第一种方法
+   Vue.prototype.$globalEventBus = new Vue()
+   new Vue({
+       render: h => h(App)
+   }).$mount('#app')
+   
+   //第二种方法
+   new Vue({
+       beforeCreate() {
+   		Vue.prototype.$globalEventBus = this
+   	}
+       render: h => h(App)
+   }).$mount('#app')
+   ```
+
+2. 绑定事件（接受数据方）
+
+   ```js
+   mounted() {
+       this.$globalEventBus.$on(事件名称, 事件回调函数)
+   }
+   ```
+
+3. 触发事件（发送数据方）
+
+   ```js
+   this.$globalEventBus.$emit(事件名称, 参数1...)
+   ```
+
    

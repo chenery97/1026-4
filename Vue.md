@@ -889,4 +889,15 @@
    </div>
    ```
 
-   
+### Vue-Ajax
+
+#### axios
+
+
+
+### ElementUI
+
+- 按需加载配置：按需加载组件样式
+- vue add element 给 vue 脚手架添加 element 的配置
+- 将来需要修改的地方：plugins/element.js
+  - 用什么组件，需要手动引入且注册

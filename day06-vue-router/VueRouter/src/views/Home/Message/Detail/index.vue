@@ -30,17 +30,6 @@ export default {
       user: {},
     };
   },
-  /* mounted() {
-    setTimeout(() => {
-      this.messages = [
-        { id: 1, title: "吃饭", content: "大吃一惊" },
-        { id: 2, title: "睡觉", content: "一睡千年" },
-        { id: 3, title: "敲代码", content: "整天摸鱼" },
-      ];
-      const id = +this.$route.params.id;
-      this.message = this.messages.find((message) => message.id === id);
-    }, 2000);
-  }, */
   watch: {
     $route: {
       handler(newVal) {

@@ -1162,12 +1162,33 @@ vue的一个插件库，专门用来实现一个SPA（single page application）
 #### 路由跳转
 
 1. 路由链接跳转
+   
    - router-link
 2. 编程式导航
    - this.$router.history.push：添加一条历史记录
+   
    - this.$router.history.replace：替换当前历史记录
+   
    - this.$router.history.go：前进/后退n条历史记录
+   
    - this.$router.history.back：后退一条历史记录
+   
+     ```js
+     // 使用方法一：直接写路径
+     this.$router.history.push('/home/message/detail/' + id)
+     // 使用方法二：使用命名路由
+     this.$router.history.push({
+       	name: 'Detail',
+       	params: {
+         	id
+       	},
+       	query: {
+         	xxx: 'yyy'
+       	}
+     })
+     ```
+   
+     
 3. 使用场景
    1. 如果只需要做跳转操作，用路由链接跳转更简单（但在有大量跳转的场景下，还是使用编程式导航性能更好一点）	
       - 比如：nav导航

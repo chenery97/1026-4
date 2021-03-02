@@ -68,94 +68,97 @@
        - v-bind：强制数据绑定（单向数据绑定，Model的数据流向View）
 
          - 功能：给标签属性绑定某个动态数据
+
      - 简写：`:属性名`
-       
-         ```html
-     <!-- 单向数据绑定 -->
-         <input type='text' v-bind:value='msg' />
-         <!-- 简写模式 -->
-         <input type='text' :value='msg' />
-         <p>{{msg}}</p>
-         <script>
-             new Vue({
-                 el: '#app',
-                 data: {
-                     msg: 'hello vue'
-                 }
-             })
-         </script>
-         ```
-       
+
+       ```html
+       <!-- 单向数据绑定 -->
+       <input type='text' v-bind:value='msg' />
+       <!-- 简写模式 -->
+       <input type='text' :value='msg' />
+       <p>{{msg}}</p>
+       <script>
+           new Vue({
+               el: '#app',
+               data: {
+                   msg: 'hello vue'
+               }
+           })
+       </script>
+       ```
+
        - v-on：绑定事件监听
 
          - 功能：用于绑定DOM事件
+
      - 事件回调函数定义在配置对象中的methods中
-         - 简写：`@事件名="事件回调函数"`，当事件回调函数中只有一条语句时，可以不在methods中定义回调函数，直接简写成`@事件名="本来在回调函数中书写的语句"`，但注意不能在语句中书写this，自己会自动去this上寻找对应使用的数据
-         
-         ```html
-     <button v-on:click='clickHandle'><button/>
-         <!-- 简写模式 -->
-         <button @click='clickHandle'><button/>
-         <p>{{msg}}</p>
-         <script>
-             new Vue({
-                 el: '#app',
-                 data: {
-                     msg: 'hello vue'
-                 },
-                 methods: {
-                     clickHandle(e) {
-                         console.log(e) // 事件对象
-                         console.log(this) // this指向Vue的实例对象vm
-                     }
-                 }
-             })
-         </script>
-         <!-- 其他绑定事件方式 -->    
-         <h2>1. 绑定监听</h2>
-         <!-- 如果不需要传参时，会自动传递event事件对象 -->
-         <button v-on:click="clickHandle">按钮</button>
-         <button @click="clickHandle1">按钮1</button>
-         <!-- 如果需要传参时，可以直接传参，并不会直接调用函数，但event事件对象则不存在了 -->
-         <button @click="clickHandle2('xxx')">按钮2</button>
-         <!-- 当需要传参并且需要event对象时，在参数中传递$event，事件回调函数中就可以接收到这个事件对象了 -->
-         <button @click="clickHandle3('xxx', $event, 'yyy')">按钮3</button>
-         <!-- 但事件回调函数中只有一条语句时，可以直接简写成以下形式 -->
-         <button @click="msg = '按钮4'">按钮4</button>
-         ```
-         
-         - v-if和v-show：条件渲染
-         
+
+       - 简写：`@事件名="事件回调函数"`，当事件回调函数中只有一条语句时，可以不在methods中定义回调函数，直接简写成`@事件名="本来在回调函数中书写的语句"`，但注意不能在语句中书写this，自己会自动去this上寻找对应使用的数据
+
+       ```html
+       <button v-on:click='clickHandle'><button/>
+       <!-- 简写模式 -->
+       <button @click='clickHandle'><button/>
+       <p>{{msg}}</p>
+       <script>
+           new Vue({
+               el: '#app',
+               data: {
+                   msg: 'hello vue'
+               },
+               methods: {
+                   clickHandle(e) {
+                       console.log(e) // 事件对象
+                       console.log(this) // this指向Vue的实例对象vm
+                   }
+               }
+           })
+       </script>
+       <!-- 其他绑定事件方式 -->    
+       <h2>1. 绑定监听</h2>
+       <!-- 如果不需要传参时，会自动传递event事件对象 -->
+       <button v-on:click="clickHandle">按钮</button>
+       <button @click="clickHandle1">按钮1</button>
+       <!-- 如果需要传参时，可以直接传参，并不会直接调用函数，但event事件对象则不存在了 -->
+       <button @click="clickHandle2('xxx')">按钮2</button>
+       <!-- 当需要传参并且需要event对象时，在参数中传递$event，事件回调函数中就可以接收到这个事件对象了 -->
+       <button @click="clickHandle3('xxx', $event, 'yyy')">按钮3</button>
+       <!-- 但事件回调函数中只有一条语句时，可以直接简写成以下形式 -->
+       <button @click="msg = '按钮4'">按钮4</button>
+       ```
+
+       - v-if和v-show：条件渲染
+
+         - v-if
            - v-if
-             - v-if
-             - v-else-if
-             - v-else
-         
-           - v-show
-         
-           > v-if和v-show
-           >
-           > - 相同点：都能切换显示
-           > - 不同点：
-           >   - v-if隐藏元素时会删除对应的dom元素
-           >   - v-show隐藏元素时是通过display:none隐藏的，不会删除dom元素
-           >
-           > v-show的性能比v-if更好，当频繁切换时使用v-show较好
-         
-           ```html
-       <body>
+           - v-else-if
+           - v-else
+
+         - v-show
+
+         > v-if和v-show
+         >
+         > - 相同点：都能切换显示
+         > - 不同点：
+         >   - v-if隐藏元素时会删除对应的dom元素
+         >   - v-show隐藏元素时是通过display:none隐藏的，不会删除dom元素
+         >
+         > v-show的性能比v-if更好，当频繁切换时使用v-show较好
+
+         ```html
+         <body>
          <div id="app">
            <h1>今晚看那部电视剧？v-if</h1>
            <p v-if="tvName === 'guigu'">《硅谷》</p>
            <p v-else-if="tvName === 'pochanjiemei'">《破产姐妹》</p>
            <p v-else>《生活大爆炸》</p>
            <button @click="changeTV">按钮</button>
-       
+         
            <h1>今晚看不看电视剧？v-show</h1>
            <p v-show="isShow">看！！！</p>
            <button @click="isShow = !isShow">按钮</button>
          </div>
-       
+         
          <script src="../js/vue.js"></script>
          <script>
            new Vue({
@@ -181,17 +184,16 @@
          }
            })
          </script>
-       </body>
+         </body>
          ```
-       
+
        - v-for：列表渲染
-     
+
          - 数组：`v-for="(item[,index]) in items"`必须有一个参数，即代表当前项，支持第二个可选参数，即代表当前项的索引，可以省略小括号
          - 对象：`v-for="value[,key,index] in obj"`必须有一个测试，即代表当前项的值，支持第二个可选参数，即代表当前项的键名，支持第三个可选参数，即代表当前项的索引。在遍历对象时，会按`Object.keys()`的结果遍历，但是不能保证它的结果在不同的JavaScript引擎下都一致
-           
-     
+
          __注__：v-for语法中的`in`可以使用`of`代替，因为它更接近JavaScript迭代器的语法，建议尽可能在使用`v-for`时提供`key`attribute，除非遍历输出的DOM非常简单，或者是刻意依赖默认行为获取性能上的提升。
-     
+
          ```html
          <div id="app">
              <h1>v-for列表渲染 数组</h1>
@@ -214,15 +216,15 @@
              </ul>
          </div>
          ```
-     
+
        - v-text：将数据渲染到绑定该指令的子节点上，与innerText、textContent功能相同
-     
+
        - v-html：将数据渲染到绑定该指令的子节点上，如果数据是html标签字符串，会解析成html标签，与innerHTML功能相同
-     
+
        - v-pre：跳过编译
-     
+
        - v-cloak：避免闪现的效果，配合display:none使用，编译完成前不渲染
-     
+
        - v-once：只编译渲染一次，后续数据发生变化都不会重新渲染
 
 3. 表达式和语句的区别
@@ -800,7 +802,6 @@
    this.$globalEventBus.$emit(事件名称, 参数1...)
    ```
 
-
 #### slot（插槽）
 
 适用于：父子组件间通信，通信数据是标签数据，父组件定义插槽，子组件使用插槽，子组件可以通过作用域插槽给父组件传递子组件的数据
@@ -888,10 +889,25 @@
        <slot name="ccc" :msg="msg" />
    </div>
    ```
+   
+   应用：elementUI库提供的组件使用插槽（el-form、el-table...）    
 
 ### Vue-Ajax
 
 #### axios
+
+axios是一个基于promise的HTTP库，可以用在浏览器和node.js中
+
+特性：
+
+- 从浏览器中创建XMLHTTPRequest请求
+- 从node.js创建http请求
+- 支持Promise API
+- 拦截请求和响应
+- 转换请求数据和响应数据
+- 取消请求
+- 自动转换JSON数据
+- 客户端支持防御XSRF
 
 
 
@@ -906,109 +922,270 @@
 
 ### vue-router
 
-vue的一个插件库，专门用来实现一个SPA（single page application）应用，整个应用只有一个完整的页面，点击页面中的链接不会刷新页面，也不会向服务器发送请求。当点击路由链接时，只会做页面的局部刷新，数据需要通过ajax请求获取，并在前端异步展现。
+vue的一个插件库，专门用来实现一个SPA（single page application）应用，整个应用只有一个完整的页面，点击页面中的链接不会刷新页面，也不会向服务器发送请求。当点击路由链接时，只会跳转地址和局部更新组件。
 
-1. 什么是路由
+#### 什么是路由
 
-   1. 一个路由就是一个映射关系
-   2. key为路由路径path，value可能是function/component
+1. 一个路由就是一个映射关系
+2. key为路由路径path，value可能是function/component
 
-2. 路由分类
+#### 路由分类
 
-   1. 后台路由：node服务器端路由，value是function，用来处理客户端提交的请求并返回一个响应数据
-   2. 前台路由：浏览器路由，value是component，当请求的是路由path时，浏览器端没有发送http请求，但界面会更新显示对应的组件
+1. 后台路由：node服务器端路由，value是function，用来处理客户端提交的请求并返回一个响应数据
+2. 前台路由：浏览器路由，value是component，当请求的是路由path时，浏览器端没有发送http请求，但界面会更新显示对应的组件
 
-3. 路由配置
+#### 路由配置
 
-   1. 后台路由
+1. 后台路由
 
-      ```js
-      // 方式一
-      app.get(path, function(req, res))
-      // 方式二
-      router.get(path, function(req, res))
-      ```
+   ```js
+   // 方式一
+   app.get(path, function(req, res))
+   // 方式二
+   router.get(path, function(req, res))
+   ```
 
-      当node接收到一个请求时，根据请求路径找到匹配的路由，调用路由中的函数来处理请求，返回响应数据
+   当node接收到一个请求时，根据请求路径找到匹配的路由，调用路由中的函数来处理请求，返回响应数据
 
-   2. 前台路由
+2. 前台路由
 
-      ```js
-      // router/index.js
-      import Vue from "vue";
-      import VueRouter from "vue-router";
-      import Home from "../views/Home";
-      import About from "../views/About";
-      import Message from "../views/Home/Message";
-      import News from "../views/Home/News";
-      
-      // 安装路由器插件
-      Vue.use(VueRouter);
-      // new 一个路由器，传入路由配置对象
-      export default new VueRouter({
-        routes: [
-          {
-            path: "/home", // 路由路径
-            component: Home, // 路由组件
-            children: [ // 子路由配置
-              {
-                path: "/home/message",
-                component: Message,
-              },
-              {
-                path: "news",
-                component: News,
-              },
-              {
-                path: "/",
-                redirect: "message",
-              },
-            ],
-          },
-          {
-            path: "/about",
-            component: About,
-          },
-          {
-            path: "/", // 根路径会重定向到home组件
-            redirect: "/home", // 重定向
-          },
-        ],
-      });
-      
-      // main.js
-      import Vue from "vue";
-      import router from "./router";
-      import App from "./App.vue";
-      
-      new Vue({
-        render: (h) => h(App),
-        // 注入路由，让整个页面应用都有路由功能
-        router,
-      }).$mount("#app");
-      
-      // 组件中使用
-      <template>
-        <div class="container">
-          <h1 class="row">Vue Router</h1>
-          <div class="row">
-            <ul class="col-md-4 nav nav-pills nav-stacked">
-              <!-- 使用 router-link 组件来导航. -->
-              <!-- 通过传入 `to` 属性指定链接. -->
-              <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
-              <li><router-link to="/home">Home</router-link></li>
-              <li><router-link to="/about">About</router-link></li>
-            </ul>
-            <div class="col-md-8">
-              <!-- 路由出口 -->
-              <!-- 路由匹配到的组件将渲染在这里 -->
-              <!-- <router-view></router-view> -->
-      		<router-view />
-            </div>
-          </div>
-        </div>
-      </template>
-      ```
+   ```js
+   // router/index.js
+   import Vue from "vue";
+   import VueRouter from "vue-router";
+   import Home from "../views/Home";
+   import About from "../views/About";
+   import Message from "../views/Home/Message";
+   import News from "../views/Home/News";
+   
+   // 安装路由器插件
+   Vue.use(VueRouter);
+   // new 一个路由器，传入路由配置对象，把路由器实例对象暴露出去
+   export default new VueRouter({
+     routes: [
+       {
+         path: "/home", // 路由路径
+         component: Home, // 路由组件
+         children: [ // 子路由配置
+           {
+             path: "/home/message",
+             component: Message,
+           },
+           {
+             path: "news",
+             component: News,
+           },
+           {
+             path: "/",
+             redirect: "message",
+           },
+         ],
+       },
+       {
+         path: "/about",
+         component: About,
+       },
+       {
+         path: "/", // 根路径会重定向到home组件
+         redirect: "/home", // 重定向
+       },
+     ],
+   });
+   
+   // main.js
+   import Vue from "vue";
+   import router from "./router";
+   import App from "./App.vue";
+   
+   new Vue({
+     render: (h) => h(App),
+     // 注入路由，让整个页面应用都有路由功能
+     router,
+   }).$mount("#app");
+   
+   // 组件中使用
+   <template>
+     <div class="container">
+       <h1 class="row">Vue Router</h1>
+       <div class="row">
+         <ul class="col-md-4 nav nav-pills nav-stacked">
+           <!-- 使用 router-link 组件来导航. -->
+           <!-- 通过传入 `to` 属性指定链接. -->
+           <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+           <li><router-link to="/home">Home</router-link></li>
+           <li><router-link to="/about">About</router-link></li>
+         </ul>
+         <div class="col-md-8">
+           <!-- 路由出口 -->
+           <!-- 路由匹配到的组件将渲染在这里 -->
+           <!-- <router-view></router-view> -->
+   		<router-view />
+         </div>
+       </div>
+     </div>
+   </template>
+   ```
 
-      
+   - 路由器配置完成会提供两个组件
+
+   1. router-link 组件
+      - 作用：用来路由跳转（改变路径）
+      - 特点：点击链接不会发送请求，不会刷新页面
+      - 选中的router-link会自动添加上两个类名
+        - router-link-exact-active
+        - router-link-active
+   2. router-view 组件
+      - 作用：用来显示当前路由组件，内部会找到路由的配置项routes，根据里面的配置来匹配路由路径，加载相应的组件
+      - 组件实例对象上添加了两个属性
+        - $route
+          - params：路由参数组成的对象
+          - query：查询字符串组成的对象
+          - path：当前路由路径
+        - $router
+          - history
+            - push
+            - replace
+            - go
+            - back
+
+#### 路由传参
+
+1. 路由参数
+
+   - 路由配置
+
+     ```js
+     // router/index.js
+     {
+       path: 'detail/:id', // 配置路由参数
+       component: Detail
+     }
+     ```
+
+   - 路由链接
+
+     ```html
+     <router-link :to="`/home/message/detail/${message.id}`"></router-link>
+     ```
+
+   - 子路由获取参数
+
+     ```js
+     this.$route.params // 可以获取到整个路由参数组成的对象
+     ```
+
+2. 查询字符串
+
+   - 路由链接
+
+     ```js
+     <router-link :to="`/home/message/detail?name=jack&age=19`"></router-link>
+     ```
+
+   - 子路由获取参数
+
+     ```js
+     this.$route.query // 可以获取整个路由路径中整个查询字符串参数组成的对象
+     ```
+
+3. props
+
+   - 路由配置
+
+     ```js
+     {
+         path: 'detail/:id',
+         component: Detail,
+         props($route) {
+         	return {
+         	    ...$route.params,
+         	    ...$route.query
+         	}
+         }
+     }
+     ```
+
+   - 子路由声明接收、使用
+
+     ```js
+     props: ['xxx', 'yyy', ...]
+     this.xxx
+     ```
+
+4. 命名路由
+
+   - 路由配置
+
+     ```js
+     {
+       name: 'Detail', // 定义一个name属性
+       path: 'detail/:id',
+       component: Detail,
+     }
+     ```
+
+   - 路由链接
+
+     ```html
+     <router-link :to="{
+         name: 'Detail', // 跳转到哪个命名路由
+         params: {id: message.id}, // params参数
+         query: {name: 'jack', age: 19} // query参数
+     }"></router-link>
+     ```
+
+   - 子路由使用
+
+     ```js
+     this.$route.params
+     this.$route.query
+     // 若配置了props
+     // 直接在this身上获取即可
+     this.xxx
+     ```
+
+5. 通过router-view给显示的路由组件传递公共参数
+
+   - 配置
+
+     ```html
+     <router-view xxx="xxx"></router-view>
+     ```
+
+   - 子路由声明接收、使用
+
+     ```js
+     props: ['xxx']
+     this.xxx
+     ```
+
+#### 路由跳转
+
+1. 路由链接跳转
+   - router-link
+2. 编程式导航
+   - this.$router.history.push：添加一条历史记录
+   - this.$router.history.replace：替换当前历史记录
+   - this.$router.history.go：前进/后退n条历史记录
+   - this.$router.history.back：后退一条历史记录
+3. 使用场景
+   1. 如果只需要做跳转操作，用路由链接跳转更简单（但在有大量跳转的场景下，还是使用编程式导航性能更好一点）	
+      - 比如：nav导航
+   2. 如果需要在跳转之前，做一些其他事，用编程式导航
+      - 比如：登录功能
+
+#### 缓存路由组件
+
+- keep-alive
+
+  - include：指定包含要做缓存的组件
+  - exclude：指定排除要做缓存的组件
+  - max：最多缓存组件的数量
+
+- 当使用keep-alive缓存的组件会多两个生命周期函数
+
+  - activated：路由组件从未激活状态变成激活状态时执行
+  - deactivated：路由组件从激活状态变成未激活状态时执行
+
+  当前展示的路由组件为激活状态
 

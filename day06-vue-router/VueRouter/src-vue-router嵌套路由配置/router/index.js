@@ -4,7 +4,6 @@ import Home from "../views/Home";
 import About from "../views/About";
 import Message from "../views/Home/Message";
 import News from "../views/Home/News";
-import Detail from '../views/Home/Message/Detail'
 
 // 安装路由器插件
 Vue.use(VueRouter);
@@ -18,19 +17,6 @@ export default new VueRouter({
         {
           path: "/home/message",
           component: Message,
-          children: [
-            {
-              name: 'Detail',
-              path: 'detail/:id',
-              component: Detail,
-              props($route) {
-                return {
-                  ...$route.params,
-                  ...$route.query
-                }
-              }
-            }
-          ]
         },
         {
           path: "news",

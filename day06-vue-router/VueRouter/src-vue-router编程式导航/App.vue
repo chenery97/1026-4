@@ -7,10 +7,7 @@
         <li><router-link to="/about">About</router-link></li>
       </ul>
       <div class="col-md-8">
-        <!-- 组件缓存 -->
-        <keep-alive include="Home">
-          <router-view></router-view>
-        </keep-alive>
+        <router-view></router-view>
       </div>
     </div>
   </div>
@@ -19,18 +16,6 @@
 <script>
 export default {
   name: "App",
-  beforeCreate() {
-    console.log("App beforeCreate()");
-  },
-  created() {
-    console.log("App created()");
-  },
-  beforeMount() {
-    console.log("App beforeMount()");
-  },
-  mounted() {
-    console.log("App mounted()");
-  },
 };
 </script>
 

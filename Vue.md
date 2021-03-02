@@ -901,3 +901,114 @@
 - vue add element 给 vue 脚手架添加 element 的配置
 - 将来需要修改的地方：plugins/element.js
   - 用什么组件，需要手动引入且注册
+
+
+
+### vue-router
+
+vue的一个插件库，专门用来实现一个SPA（single page application）应用，整个应用只有一个完整的页面，点击页面中的链接不会刷新页面，也不会向服务器发送请求。当点击路由链接时，只会做页面的局部刷新，数据需要通过ajax请求获取，并在前端异步展现。
+
+1. 什么是路由
+
+   1. 一个路由就是一个映射关系
+   2. key为路由路径path，value可能是function/component
+
+2. 路由分类
+
+   1. 后台路由：node服务器端路由，value是function，用来处理客户端提交的请求并返回一个响应数据
+   2. 前台路由：浏览器路由，value是component，当请求的是路由path时，浏览器端没有发送http请求，但界面会更新显示对应的组件
+
+3. 路由配置
+
+   1. 后台路由
+
+      ```js
+      // 方式一
+      app.get(path, function(req, res))
+      // 方式二
+      router.get(path, function(req, res))
+      ```
+
+      当node接收到一个请求时，根据请求路径找到匹配的路由，调用路由中的函数来处理请求，返回响应数据
+
+   2. 前台路由
+
+      ```js
+      // router/index.js
+      import Vue from "vue";
+      import VueRouter from "vue-router";
+      import Home from "../views/Home";
+      import About from "../views/About";
+      import Message from "../views/Home/Message";
+      import News from "../views/Home/News";
+      
+      // 安装路由器插件
+      Vue.use(VueRouter);
+      // new 一个路由器，传入路由配置对象
+      export default new VueRouter({
+        routes: [
+          {
+            path: "/home", // 路由路径
+            component: Home, // 路由组件
+            children: [ // 子路由配置
+              {
+                path: "/home/message",
+                component: Message,
+              },
+              {
+                path: "news",
+                component: News,
+              },
+              {
+                path: "/",
+                redirect: "message",
+              },
+            ],
+          },
+          {
+            path: "/about",
+            component: About,
+          },
+          {
+            path: "/", // 根路径会重定向到home组件
+            redirect: "/home", // 重定向
+          },
+        ],
+      });
+      
+      // main.js
+      import Vue from "vue";
+      import router from "./router";
+      import App from "./App.vue";
+      
+      new Vue({
+        render: (h) => h(App),
+        // 注入路由，让整个页面应用都有路由功能
+        router,
+      }).$mount("#app");
+      
+      // 组件中使用
+      <template>
+        <div class="container">
+          <h1 class="row">Vue Router</h1>
+          <div class="row">
+            <ul class="col-md-4 nav nav-pills nav-stacked">
+              <!-- 使用 router-link 组件来导航. -->
+              <!-- 通过传入 `to` 属性指定链接. -->
+              <!-- <router-link> 默认会被渲染成一个 `<a>` 标签 -->
+              <li><router-link to="/home">Home</router-link></li>
+              <li><router-link to="/about">About</router-link></li>
+            </ul>
+            <div class="col-md-8">
+              <!-- 路由出口 -->
+              <!-- 路由匹配到的组件将渲染在这里 -->
+              <!-- <router-view></router-view> -->
+      		<router-view />
+            </div>
+          </div>
+        </div>
+      </template>
+      ```
+
+      
+

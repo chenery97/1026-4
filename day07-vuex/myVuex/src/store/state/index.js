@@ -1,3 +1,5 @@
 export default {
-  count: 0
+  todos: [
+    {id: 1, name: '吃饭', isDone: false}
+  ]
 }

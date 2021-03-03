@@ -1224,4 +1224,36 @@ vue的一个插件库，专门用来实现一个SPA（single page application）
 
 ### vuex
 
+#### 什么是vuex
+
 对vue应用中多个组件的共享状态进行集中式的管理
+
+#### vuex配置
+
+```js
+// store/index.js
+import Vue from 'vue';
+import Vuex from 'vuex';
+
+// 安装Vuex插件
+Vue.use(Vuex);
+
+// 配置store仓库，并向外暴露这个store仓库
+export default new Vuex.Store({
+    state: {}, // 定义组件共享的数据
+    getters: {}, // 定义只读计算属性，与vue中的computed的get功能相同
+    actions: {}, // 定义n个间接修改state数据的函数的一个对象、调用commit('mutations某个函数名')方法触发指定的mutation方法
+    mutations: {} // 定义n个直接修改state数据的函数的一个对象
+})
+
+// main.js
+import Vue from 'vue'
+import App from 'App'
+import store from './store'
+
+new Vue({
+    render: h => h(App),
+    store // 注入store，使得整个应用都可以获取到store共享的数据和一些操作数据的方法，注入后在组件实例上有一个$store对象
+}).$mount('#app')
+```
+

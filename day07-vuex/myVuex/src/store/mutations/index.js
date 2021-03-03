@@ -1,9 +1,15 @@
 export default {
-  // 函数接收一个state，当前实例上的state对象
-  INCREMENT(state, num) {
-    state.count += num;
+  ADD_TODO(state, name) {
+    state.todos.unshift({ id: Date.now(), name, isDone: false });
   },
-  DECREMENT(state, num) {
-    state.count -= num;
+  UPDATE_TODO(state, id) {
+    const todo = state.todos.find((todo) => todo.id === id);
+    todo.isDone = !todo.isDone;
+  },
+  DEL_TODO(state, id) {
+    state.todos = state.todos.filter((todo) => todo.id !== id);
+  },
+  IS_CHECKED(state, isDone) {
+    state.todos.forEach((todo) => (todo.isDone = isDone));
   },
 };

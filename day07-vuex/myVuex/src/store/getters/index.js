@@ -1,5 +1,8 @@
 export default {
-  countType(state) {
-    return state.count & (1 === 1) ? "奇数" : "偶数";
+  total(state) {
+    return state.todos.length;
+  },
+  completeTotal(state) {
+    return state.todos.reduce((prev, todo) => (todo.isDone ? ++prev : prev), 0);
   },
 };

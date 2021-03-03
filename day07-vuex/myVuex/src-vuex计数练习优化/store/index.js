@@ -11,20 +11,20 @@ export default new Vuex.Store({
   // 定义包含n个间接修改数据的函数对象
   actions: {
     // 函数接收一个store对象
-    increment(store, num = 1) {
+    increment({ commit }, num = 1) {
       // 触发某个mutation函数
-      store.commit("INCREMENT", num);
+      commit("INCREMENT", num);
     },
-    decrement(store, num = 1) {
-      store.commit("DECREMENT", num);
+    decrement({ commit }, num = 1) {
+      commit("DECREMENT", num);
     },
     // 异步操作
-    asyncIncrement(store) {
-      clearTimeout(this.$timer)
+    asyncIncrement({ commit }) {
+      clearTimeout(this.$timer);
       // 模拟异步操作
       this.$timer = setTimeout(() => {
         // 调用store的dispatch触发同步计数的方法
-        store.dispatch('increment', 2)
+        commit("INCREMENT", 2);
       }, 2000);
     },
   },

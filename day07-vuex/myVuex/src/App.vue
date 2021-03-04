@@ -1,40 +1,32 @@
 <template>
-  <div class="todo-container">
-    <div class="todo-wrap">
-      <Header />
-      <List />
-      <Footer v-if="todos.length" />
-    </div>
+  <div>
+    <p>a.state.count: {{ a }}</p>
+    <p>b.state.subModule.count: {{ b }}</p>
+    <button @click="clickHandle">increment</button>
   </div>
 </template>
 
 <script>
-import Header from "./views/Header";
-import List from "./views/List";
-import Footer from "./views/Footer";
-import {mapState} from 'vuex'
+import { mapState, mapActions } from "vuex";
 export default {
   name: "App",
+  mounted() {
+    // console.log(this.$store.state);
+  },
   computed: {
-    ...mapState(['todos'])
+    ...mapState({
+      a: state => state.a.count,
+      b: state => state.b.subModule.count
+    }),
   },
-  components: {
-    Header,
-    List,
-    Footer,
-  },
+  methods: {
+    ...mapActions(['b/subModule/login']),
+    clickHandle() {
+      this['b/subModule/login']()
+    }
+  }
 };
 </script>
 
 <style>
-/*app*/
-.todo-container {
-  width: 600px;
-  margin: 0 auto;
-}
-.todo-container .todo-wrap {
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
 </style>

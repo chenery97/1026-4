@@ -1226,7 +1226,12 @@ vue的一个插件库，专门用来实现一个SPA（single page application）
 
 #### 什么是vuex
 
-对vue应用中多个组件的共享状态进行集中式的管理
+把组件的共享状态抽取出来，以一个全局单例模式管理，在这种模式下，我们的组件树构成了一个巨大的“视图”，不管在树的哪个位置，任何组件都能获取到状态或触发行为。简单来说，就是对vue应用中多个组件的共享状态进行集中式管理。
+
+#### vuex的特点
+
+1. vuex的状态存储是响应式的。当Vue组件从store中读取状态的时候，若store中的状态发生变化，那么相应的组件也会相应地得到高效更新。
+2. 不能直接改变store中的状态。改变store中的状态的唯一途径就是显示地提交（commit）mutation。这样使得我们可以方便地跟踪每一个状态的变化，从而让我们能够实现一些工具帮助我们更好地了解我们的应用。
 
 #### vuex配置
 
@@ -1242,8 +1247,8 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {}, // 定义组件共享的数据
     getters: {}, // 定义只读计算属性，与vue中的computed的get功能相同
-    actions: {}, // 定义n个间接修改state数据的函数的一个对象、调用commit('mutations某个函数名')方法触发指定的mutation方法
-    mutations: {} // 定义n个直接修改state数据的函数的一个对象
+    actions: {}, // 定义n个间接更新state数据的函数的一个对象、调用commit('mutations某个函数名')方法触发指定的mutation方法
+    mutations: {} // 定义n个直接更新state数据的函数的一个对象
 })
 
 // main.js
@@ -1257,3 +1262,74 @@ new Vue({
 }).$mount('#app')
 ```
 
+#### vuex五个核心概念
+
+- state：包含store中存储的各个状态
+
+- getters：包含n个只读计算属性，getter的返回值会根据它的依赖被缓存起来，且只有当它的依赖值发生了改变才会被重新计算
+
+  - 内部的getter，第一个参数state，state包含当前局部状态state和嵌套子模块的状态state
+  - 内部的getter，第二个参数getters，getters包含当前局部getters和嵌套子模块的getters
+  - 内部的getter，第三个参数rootState，rootState包含根状态state及其嵌套子模块的状态state
+  - 内部的getter，第四个参数rootGetters，rootGetters包含根模块的getters及其嵌套子模块的getters
+
+- actions：包含n个间接更新state状态的方法对象
+
+- mutations：包含n个直接更新state状态的方法对象
+
+- modules：包含n个局部模块，模块中有自己的state、getters、actions、mutations、甚至是嵌套子模块
+
+  modules：
+
+  - 对于模块内部的 mutation 和 getter ，接收的第一个参数是**模块的局部状态对象state**
+  - 对于模块内部的 action ，局部状态通过 context.state 暴露出来，根节点状态则为 context.rootState，所以说明在actions中第一个参数并不是store，而是当前上下文对象
+  - 对于模块内部的getter，根节点状态会作为第三个参数暴露出来
+
+  命名空间：
+
+  - 通过 namespaced: true 的方式使其成为带命名空间的模块。当模块被注册后，它的所有 getter、 action 和 mutation 都会自动根据模块注册的路径调整命名。
+
+    ```js
+    const store = new Vuex.Store({
+      modules: {
+        account: {
+          namespaced: true,
+    
+          // 模块内容（module assets）
+          state: () => ({ ... }), // 模块内的状态已经是嵌套的了，使用 `namespaced` 属性不会对其产生影响
+          getters: {
+            isAdmin () { ... } // -> getters['account/isAdmin']
+          },
+          actions: {
+            login () { ... } // -> dispatch('account/login')
+          },
+          mutations: {
+            login () { ... } // -> commit('account/login')
+          },
+    
+          // 嵌套模块
+          modules: {
+            // 继承父模块的命名空间
+            myPage: {
+              state: () => ({ ... }),
+              getters: {
+                profile () { ... } // -> getters['account/profile']
+              }
+            },
+    
+            // 进一步嵌套命名空间
+            posts: {
+              namespaced: true,
+    
+              state: () => ({ ... }),
+              getters: {
+                popular () { ... } // -> getters['account/posts/popular']
+              }
+            }
+          }
+        }
+      }
+    })
+    ```
+
+    

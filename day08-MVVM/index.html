@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .font30{
+        font-size: 30px;
+      }
+      .skyblue{
+        color: skyblue;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <h1>{{msg}}</h1>
+      <h2>{{person.name}}</h2>
+      <ul>
+        <li class="li1" id="li1">1</li>
+        <li>2</li>
+        <li>3</li>
+        <button v-on:click="clickHandle">按钮</button>
+      </ul>
+      <p v-text="other"></p>
+      <p v-html="other"></p>
+      <p class="font30 " v-class="color" v-html="other"></p>
+      <p></p>
+    </div>
+
+    <script src="./compile.js"></script>
+    <script src="./mvvm.js"></script>
+    <script>
+      new MVVM({
+        el: "#app",
+        data: {
+          msg: "hello MVVM",
+          other: '<h3>hello MVVM</h3>',
+          color: 'skyblue',
+          person: {
+            name: "jack",
+          },
+        },
+        methods: {
+          clickHandle() {
+            console.log(this);
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

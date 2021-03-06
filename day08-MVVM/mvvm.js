@@ -16,6 +16,10 @@ function MVVM(options) {
     me._proxyMethods(key);
   })
 
+
+  // 数据劫持
+  observe(data);
+
   // 模板解析
   this.$complie = new Compile(options.el || document.body, this);
 }

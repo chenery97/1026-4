@@ -6,46 +6,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-      .font30{
+      .font30 {
         font-size: 30px;
       }
-      .skyblue{
+      .skyblue {
         color: skyblue;
+      }
+      .red {
+        color: red;
       }
     </style>
   </head>
   <body>
     <div id="app">
+      <input type="text" v-model="msg">
       <h1>{{msg}}</h1>
       <h2>{{person.name}}</h2>
+      <h2>{{person.name}}</h2>
+      <button v-on:click="changeName">按钮</button>
       <ul>
         <li class="li1" id="li1">1</li>
         <li>2</li>
         <li>3</li>
-        <button v-on:click="clickHandle">按钮</button>
       </ul>
+      <span>{{num}}</span>
+      <button v-on:click="clickHandle">按钮</button>
       <p v-text="other"></p>
       <p v-html="other"></p>
-      <p class="font30 " v-class="color" v-html="other"></p>
-      <p></p>
+      <p class="font30" v-class="color" v-html="other"></p>
     </div>
 
+    <script src="./watcher.js"></script>
+    <script src="./observe.js"></script>
     <script src="./compile.js"></script>
     <script src="./mvvm.js"></script>
     <script>
+      // debugger;
       new MVVM({
         el: "#app",
         data: {
           msg: "hello MVVM",
-          other: '<h3>hello MVVM</h3>',
-          color: 'skyblue',
+          other: "<h3>hello MVVM</h3>",
+          color: "skyblue",
           person: {
             name: "jack",
           },
+          num: 0,
         },
         methods: {
           clickHandle() {
-            console.log(this);
+            this.num++;
+          },
+          changeName() {
+            this.person.name = "rose";
+            this.color = "red";
           },
         },
       });

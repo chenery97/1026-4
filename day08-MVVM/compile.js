@@ -118,9 +118,33 @@ var compileUtil = {
   class: function (node, vm, exp) {
     this.bind(node, vm, exp, "class");
   },
+  // 编译v-model指令
+  model: function (node, vm, exp) {
+    this.bind(node, vm, exp, "model");
+    // 获取模板语法中表达式的值
+    var value = this._getVMVal(vm, exp);
+    var me = this;
+    // 给元素绑定input事件，收集用户输入的数据
+    node.addEventListener("input", function (e) {
+      var newVal = e.target.value;
+      if (newVal === value) {
+        return;
+      }
+      // 更新数据
+      me._setVMVal(vm, exp, newVal);
+      // 更新旧值
+      value = newVal;
+    });
+  },
   bind: function (node, vm, exp, dir) {
+    // 找到指令对应的更新方法
     var updaterFn = updater[dir + "Updater"];
+    // 调用更新方法
     updaterFn && updaterFn(node, this._getVMVal(vm, exp));
+    // 为模块语法创建watcher，并存储对应的dep，创建联系
+    new Watcher(vm, exp, function (value, oldValue) {
+      updaterFn && updaterFn(node, value, oldValue);
+    });
   },
   // 解析事件指令，绑定事件
   eventHandle: function (node, vm, exp, dir) {
@@ -138,9 +162,23 @@ var compileUtil = {
     var val = vm._data;
     var exp = exp.split(".");
     exp.forEach(function (key) {
+      // 触发数据劫持的get方法
       val = val[key];
     });
     return val;
+  },
+  // view ---> model
+  _setVMVal: function (vm, exp, newVal) {
+    var exp = exp.split(":");
+    var val = vm._data;
+    exp.forEach(function (key, i) {
+      if (i < exp.length - 1) {
+        val = val[key];
+      } else {
+        // 触发数据劫持阶段的set方法
+        val[key] = newVal;
+      }
+    });
   },
 };
 
@@ -154,10 +192,15 @@ var updater = {
     node.innerHTML = val === "undefined" ? "" : val;
   },
   // 更新节点的类名
-  classUpdater: function (node, val) {
+  classUpdater: function (node, val, oldVal) {
     // 获取节点上原来的类名
     var oldClassName = node.className;
+    var oldClassName = oldClassName.replace(oldVal, "").replace(/\s$/, "");
     var space = oldClassName ? " " : "";
     node.className = oldClassName + space + val;
+  },
+  // 更新节点的value
+  modelUpdater: function (node, val) {
+    node.value = val === "undefined" ? "" : val;
   },
 };
